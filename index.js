@@ -1,10 +1,16 @@
 const express = require('express')
+const jwt = require('express-jwt');
 const cors = require('cors')
 const path = require('path')
 const app = express()
 
 // 导入路由模块
 const loginRouter = require(path.join(__dirname, 'routers/login-router.js'))
+const userRouter = require(path.join(__dirname, 'routers/user-router.js'))
+// 解析token并验证token的合法性，如果解析失败直接返回错误状态401
+// 凡是以/api开头的路径不需要验证token的有效性
+// 
+app.use(jwt({ secret: 'bigevent' }).unless({ path: /^\/api/ }));
 
 // 配置跨域
 app.use(cors())
@@ -23,7 +29,17 @@ app.listen(8888, () => {
 // app.use函数的参数一表示在路由的前面统一添加一层路径
 // app.use函数的参数二表示独立的路由模块
 app.use('/api', loginRouter)
+app.use('/my', userRouter)
 
 // app.get('/data', (req, res) => {
 //   res.send('hello')
 // })
+
+app.use((err, req, res, next) =>{
+  if(err){
+    res.status(401).json({
+      status:401,
+      message:"没有权限访问"
+    })
+  }
+})
