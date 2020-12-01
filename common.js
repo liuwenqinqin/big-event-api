@@ -11,13 +11,13 @@ function operateDb (sql, params) {
       // 数据库所在计算机的IP地址或者域名
       host: 'localhost',
       // 数据库的端口
-      port: 3307,
+      port: 3306,
       // 数据库名称
-      database: '117',
+      database: 'lwq',
       // 登录数据库的账号名称
       user: 'root',
       // 登录数据库的账号密码
-      password: 'admin123'
+      password: 'qqqqqq'
     })
     // 3) 连接 MySQL 服务器
     cn.connect()
